@@ -48,3 +48,16 @@ app.get('/user', (req, res) => {
       res.json(err);
     });
 });
+
+// Create a new thought and associate it with user
+app.post('/submit', ({ body }, res) => {
+  db.Note.create(body)
+    .then(({ _id }) =>
+      db.User.findOneAndUpdate({}, { $push: { notes: _id } }, { new: true }))
+    .then(dbUser => {
+      res.json(dbUser);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
