@@ -29,8 +29,8 @@ db.User.create({ name: 'John Doe' })
 
 // Retrieve all thoughts
 app.get('/thoughts', (req, res) => {
-  db.Note.find({})
-    .then(dbNote => {
+  db.Thought.find({})
+    .then(dbThought => {
       res.json(dbNote);
     })
     .catch(err => {
@@ -51,7 +51,7 @@ app.get('/user', (req, res) => {
 
 // Create a new thought and associate it with user
 app.post('/submit', ({ body }, res) => {
-  db.Note.create(body)
+  db.Thought.create(body)
     .then(({ _id }) =>
       db.User.findOneAndUpdate({}, { $push: { notes: _id } }, { new: true }))
     .then(dbUser => {
